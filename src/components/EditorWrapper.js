@@ -55,7 +55,7 @@ const EditorWrapper = (props) => {
           onChange={(e) => setTitle(e.target.value)}
         />
         <button
-          className="bg-gray-900 text-white rounded w-60 font-bold outline-none px-4"
+          className="bg-gray-900 text-white rounded lg:w-60 sm:w-30 font-bold outline-none px-4"
           onClick={() => {
             updateNote(title, content);
           }}

@@ -2,6 +2,12 @@ import React from "react";
 import { checkFirebaseAuth, fireStoreRef } from "../firebase";
 import { useHistory } from "react-router-dom";
 import firebase from "firebase";
+import { useState, useEffect } from "react";
+
+const getWidth = () =>
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
 
 export const globalStore = React.createContext(null);
 
@@ -9,6 +15,9 @@ export const UserContext = (props) => {
   const [auth, setAuth] = React.useState(null);
   let history = useHistory();
   console.log(history);
+
+  let width = useCurrentWidth();
+
   const redirect = (location) => {
     history.push(location);
   };
@@ -53,6 +62,7 @@ export const UserContext = (props) => {
 
     // redirect("/feed");
   };
+
   console.log(auth);
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -66,9 +76,7 @@ export const UserContext = (props) => {
         console.log("user logged out");
       }
     });
-  }, []);
 
-  React.useEffect(() => {
     if (auth !== null) {
       fireStoreRef()
         .collection("user")
@@ -79,9 +87,37 @@ export const UserContext = (props) => {
     }
   }, []);
 
+  // React.useEffect(() => {
+
+  // }, []);
+
   return (
-    <globalStore.Provider value={{ auth, setAuth }}>
+    <globalStore.Provider value={{ auth, setAuth, width }}>
       {props.children}
     </globalStore.Provider>
   );
 };
+
+function useCurrentWidth() {
+  // save current window width in the state object
+  let [width, setWidth] = useState(getWidth());
+
+  // in this case useEffect will execute only once because
+  // it does not have any dependencies.
+  useEffect(() => {
+    const resizeListener = () => {
+      // change width from the state object
+      setWidth(getWidth());
+    };
+    // set resize listener
+    window.addEventListener("resize", resizeListener);
+
+    // clean up function
+    return () => {
+      // remove resize listener
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, []);
+
+  return width;
+}

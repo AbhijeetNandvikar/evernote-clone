@@ -25,12 +25,13 @@ function App() {
         <Route path="/">
           <MainApp />
         </Route>
+        <Route path="/*">
+          <Redirect to="/" />
+        </Route>
         {/* <Route path="/profile/:id">
           <Redirect to="/profile/:id" />
         </Route>
-        <Route path="/*">
-          <Redirect to="/" />
-        </Route> */}
+         */}
       </Switch>
     </div>
   );

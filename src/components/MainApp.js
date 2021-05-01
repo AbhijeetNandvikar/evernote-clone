@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import { globalStore } from "./UserContext";
 
 const MainApp = () => {
-  const { auth, setAuth } = React.useContext(globalStore);
+  const { auth, setAuth, width } = React.useContext(globalStore);
   const [notes, setNotes] = React.useState([]);
   const [currentNote, setCurrentNote] = React.useState(null);
   React.useEffect(() => {
@@ -24,6 +24,7 @@ const MainApp = () => {
           if (notesArr.length && currentNote === null) {
             setCurrentNote(notesArr[0]);
           }
+          if (notesArr.length === 0) setCurrentNote(null);
         });
     }
 
@@ -41,16 +42,19 @@ const MainApp = () => {
             setNotes={(val) => setNotes(val)}
             currentNote={currentNote}
             setCurrentNote={(val) => setCurrentNote(val)}
+            width={width}
           />
           {currentNote !== null ? (
             <EditorWrapper currentNote={currentNote} auth={auth} />
           ) : (
-            <></>
+            <div className="text-center text-gray-900 text-2xl font-bold">
+              click on add to create new note
+            </div>
           )}
         </div>
       ) : (
-        <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
-          <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+        <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-900 opacity-75 flex flex-col items-center justify-center">
+          <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-20 w-20 mb-4"></div>
           <h2 class="text-center text-white text-xl font-semibold">
             Loading...
           </h2>

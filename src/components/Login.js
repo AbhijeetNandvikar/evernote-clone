@@ -16,13 +16,13 @@ const Login = (props) => {
     setError("Login failed try again");
   };
   return (
-    <div className="min-w-screen min-h-screen flex items-center">
+    <div className="min-w-screen min-h-screen flex items-center justify-center flex-col">
       {/* <UnAuthNavbar /> */}
       <div className="lg:max-w-4xl mx-auto flex flex-col items-center justify-center px-5 py-5">
         <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden md:flex">
           <div className="hidden w-1/2 bg-gray-900 py-10 px-10 md:flex flex-col items-center justify-center">
             <div className="text-4xl font-bold mb-12 text-white text-center flex justify-center items-center">
-              <div>Showcase your Art on PIXEL</div>
+              <div>This is a simple note taking app</div>
             </div>
             <Link to="/signup" className="text-white mt-6 ">
               Click here to create an account
@@ -101,6 +101,12 @@ const Login = (props) => {
           </div>
         </div>
       </div>
+      <Link
+        to="/signup"
+        className="text-gray-900 mt-6 text-center md:hidden block "
+      >
+        Click here to create an account
+      </Link>
     </div>
   );
 };
