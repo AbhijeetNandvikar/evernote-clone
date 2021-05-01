@@ -3,6 +3,7 @@ import React from "react";
 import { uuid } from "uuidv4";
 import { fireStoreRef } from "../firebase";
 import { logoutWrapper } from "../firebase";
+import placeholder from "../images/profile-placeholder.png";
 
 const Sidebar = (props) => {
   const [adding, setAdding] = React.useState(false);
@@ -55,7 +56,7 @@ const Sidebar = (props) => {
               <div
                 className={
                   props?.currentNote?.id === note.id
-                    ? `text-xl font-bold mb-3`
+                    ? `text-xl font-bold mb-3 h-6 overflow-hidden`
                     : "text-xl mb-3"
                 }
               >
@@ -70,7 +71,7 @@ const Sidebar = (props) => {
                 Delete
               </button>
             </div>
-            <div className="text-gray-100 mb-5 h-10">
+            <div className="text-gray-100 mb-5 h-12 overflow-hidden">
               <Interweave content={note.content} />
             </div>
             <div className="text-xs text-gray-100">
@@ -100,6 +101,15 @@ const Sidebar = (props) => {
       </button>
       {adding ? (
         <>
+          <button
+            className="border-2 border-white rounded w-full py-3 mb-5"
+            onClick={() => {
+              setTitle("");
+              setAdding(false);
+            }}
+          >
+            Cancel
+          </button>
           <div className="text-lg mb-4">Title :</div>
           <input
             className=" w-64 text-xl font-bold text-gray-100 bg-gray-900 border-2 px-3 py-5 outline-none border-white rounded"
@@ -111,8 +121,16 @@ const Sidebar = (props) => {
         <></>
       )}
       <div className="mt-8 overflow-auto">{renderNotes(props.notes)}</div>
+      <div className="flex items-center mt-auto mb-5">
+        <img
+          className="w-8 h-8 rounded-full mr-4 object-cover"
+          src={props.auth.photoUrl ? props.auth.photoUrl : placeholder}
+          alt="profile"
+        />
+        <div className="text">{props.auth.email}</div>
+      </div>
       <button
-        className="border-2 border-white rounded w-full mt-auto py-3 mb-5"
+        className="border-2 border-white rounded w-full py-3 mb-5"
         onClick={() => {
           logoutWrapper();
           window.location.href = "http://localhost:3000/login";

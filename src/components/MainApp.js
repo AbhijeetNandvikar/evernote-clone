@@ -43,7 +43,7 @@ const MainApp = () => {
             setCurrentNote={(val) => setCurrentNote(val)}
           />
           {currentNote !== null ? (
-            <EditorWrapper currentNote={currentNote} />
+            <EditorWrapper currentNote={currentNote} auth={auth} />
           ) : (
             <></>
           )}

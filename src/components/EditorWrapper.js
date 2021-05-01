@@ -6,11 +6,46 @@ import { fireStoreRef } from "../firebase";
 const EditorWrapper = (props) => {
   const [content, setContent] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [updating, setUpdating] = React.useState(false);
 
   React.useEffect(() => {
     setContent(props.currentNote.content);
     setTitle(props.currentNote.title);
+    if (
+      props.currentNote.content !== content &&
+      props.currentNote.title !== title
+    ) {
+      setUpdating(true);
+    }
   }, [props.currentNote]);
+
+  React.useEffect(() => {
+    if (
+      props.currentNote.content !== content ||
+      props.currentNote.title !== title
+    ) {
+      setUpdating(true);
+    } else {
+      setUpdating(false);
+    }
+  }, [title, content]);
+
+  const updateNote = (title, content) => {
+    fireStoreRef()
+      .collection("users")
+      .doc(props.auth.uid)
+      .collection("notes")
+      .doc(props.currentNote.id)
+      .update({
+        ...props.currentNote,
+        title: title,
+        content: content,
+        timestamp: Date.now(),
+      })
+      .then(() => {
+        setUpdating(false);
+      });
+  };
   return (
     <div className="flex flex-col w-full h-screen overflow-auto ">
       <div className="flex">
@@ -19,8 +54,13 @@ const EditorWrapper = (props) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <button className="bg-gray-900 text-white rounded w-32 font-bold outline-none ">
-          Save
+        <button
+          className="bg-gray-900 text-white rounded w-60 font-bold outline-none px-4"
+          onClick={() => {
+            updateNote(title, content);
+          }}
+        >
+          {updating ? "Save Changes" : "Saved"}
         </button>
       </div>
 

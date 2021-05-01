@@ -38,6 +38,7 @@ export const loginWrapper = (email, pass, resolve, reject) => {
     .signInWithEmailAndPassword(email, pass)
     .then((res) => {
       console.log(res);
+      resolve();
       // store.dispatch(userLogin(firebase.auth().currentUser));
       // if (typeof resolve === "function") resolve();
     })

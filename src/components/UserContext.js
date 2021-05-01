@@ -14,7 +14,7 @@ export const UserContext = (props) => {
   };
   const reject = () => {
     setAuth(null);
-    redirect("login");
+    redirect("/login");
   };
   const resolve = (data) => {
     console.log(data);
@@ -59,6 +59,7 @@ export const UserContext = (props) => {
       if (user) {
         console.log("user signed in");
         resolve(firebase.auth().currentUser);
+        redirect("/");
       } else {
         // No user is signed in
         reject();
