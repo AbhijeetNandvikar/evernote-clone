@@ -10,7 +10,7 @@ const Login = (props) => {
   console.log(error);
 
   const resolve = () => {
-    history.push("/feed");
+    history.push("/");
   };
   const reject = () => {
     setError("Login failed try again");

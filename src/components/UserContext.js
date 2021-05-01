@@ -26,15 +26,28 @@ export const UserContext = (props) => {
         if (doc.exists) {
           setAuth(doc.data());
         } else {
-          setAuth({
-            name: data.displayName,
-            email: data.email,
-            photoUrl: data.photoURL,
-            emailVerified: data.emailVerified,
-            uid: data.uid,
-            images: data?.images?.length ? data.images : [],
-            bio: data.bio ? data.bio : "",
-          });
+          fireStoreRef()
+            .collection("users")
+            .doc(data.uid)
+            .set({
+              name: data.displayName,
+              email: data.email,
+              photoUrl: data.photoURL,
+              emailVerified: data.emailVerified,
+              uid: data.uid,
+            })
+            .then(() => {
+              setAuth({
+                name: data.displayName,
+                email: data.email,
+                photoUrl: data.photoURL,
+                emailVerified: data.emailVerified,
+                uid: data.uid,
+              });
+            })
+            .catch(() => {
+              console.log("UNABLE TO CREATE NEW USER");
+            });
         }
       });
 
